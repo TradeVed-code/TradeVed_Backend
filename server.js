@@ -4,7 +4,7 @@ const sqlite3 = require('sqlite3').verbose();
 const ExcelJS = require('exceljs');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000; // Changed port to 5000
 
 app.use(cors());
 app.use(express.json());
@@ -26,6 +26,8 @@ const db = new sqlite3.Database('./waitlist.db', (err) => {
 
 // POST API to add to waitlist
 app.post('/api/waitlist', (req, res) => {
+    console.log('POST /api/waitlist called with:', req.body); // Debug log
+
     const { name, email, phone, experience } = req.body;
 
     if (!name || !email) {
@@ -46,7 +48,7 @@ app.post('/api/waitlist', (req, res) => {
     });
 });
 
-// NEW: GET API to export waitlist as Excel file
+// GET API to export waitlist as Excel file
 app.get('/api/waitlist/export', (req, res) => {
     const query = `SELECT * FROM waitlist`;
 
